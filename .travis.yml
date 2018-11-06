@@ -1,25 +1,16 @@
+# Config file for https://travis-ci.org/
+
 language: php
 
-sudo: false
-
-addons:
-  apt:
-    packages:
-      - libxml2-utils
+# Define the php versions against we want to test our code
 php:
-  - 7.1
+- 7.1
 
-before_script:
-  - echo 'zend.assertions=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - echo 'assert.exception=On' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+# Note: Code coverage requires php-xDebug extension enabled on CI server
 
+install:
+- travis_retry composer install --no-interaction --no-suggest
+
+# Testing the app (see phpunit.xml) for configs, generating Code Coverage report
 script:
-  - ./phpunit --coverage-clover=coverage.xml
-  - ./phpunit --configuration ./build/travis-ci-fail.xml > /dev/null; if [ $? -eq 0 ]; then echo "SHOULD FAIL"; false; else echo "fail checked"; fi;
-  - xmllint --noout --schema phpunit.xsd phpunit.xml
-  - xmllint --noout --schema phpunit.xsd tests/_files/configuration.xml
-  - xmllint --noout --schema phpunit.xsd tests/_files/configuration_empty.xml
-  - xmllint --noout --schema phpunit.xsd tests/_files/configuration_xinclude.xml -xinclude
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- composer test -- --coverage-clover=coverage.xml
