@@ -9,9 +9,6 @@ addons:
 php:
   - 7.1
 
-before_install:
-- php /home/travis/.phpenv/versions/7.1/bin/composer.phar update
-
 before_script:
   - echo 'zend.assertions=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'assert.exception=On' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
