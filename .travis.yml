@@ -13,4 +13,4 @@ install:
 
 # Testing the app (see phpunit.xml) for configs, generating Code Coverage report
 script:
-- composer test -- --coverage-clover=coverage.xml
+- phpunit -c core/phpunit.xml.dist . --debug --testdox
