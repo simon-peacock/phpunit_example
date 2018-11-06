@@ -2,6 +2,12 @@ language: php
 php:
 - '7.1'
 
+addons:
+  sonarcloud:
+    organization: "simon-peacock-github"
+    token:
+      secure: "secure-string=666f24e3ccd30b982a2e1a78b4517210c2cf412b"
+
 install:
 - composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
 - mkdir -p drupal/web/modules/${PWD##*/} && cp -a ${PWD##*/}* tests src drupal/web/modules/${PWD##*/}
