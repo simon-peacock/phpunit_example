@@ -12,4 +12,5 @@ install:
 - composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
 - mkdir -p drupal/web/modules/${PWD##*/} && cp -a ${PWD##*/}* tests src drupal/web/modules/${PWD##*/}
 script:
-- drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${PWD##*/}/tests/ --coverage-clover clover.xml --log-junit junit.log
+- drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${PWD##*/}/tests/
+- sonar-scanner
