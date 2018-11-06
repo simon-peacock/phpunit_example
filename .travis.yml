@@ -1,18 +1,9 @@
 language: php
 php:
 - '7.1'
-addons:
-  sonarcloud:
-    organization: "simon-peacock-github"
-    token:
-      secure: "secure-string=666f24e3ccd30b982a2e1a78b4517210c2cf412b"
-env:
-- SIMPLETEST_DB=sqlite://testdb.sqlite
+
 install:
 - composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
-- composer require -d drupal 'drupal/flag:4.0-alpha2'
-- patch -d drupal/web -p1 < sqlite-driver-exception.patch
-- patch -d drupal/web/core -p1 < travis-ci-phpunit.xml.dist.patch
 - mkdir -p drupal/web/modules/${PWD##*/} && cp -a ${PWD##*/}* tests templates src config drupal/web/modules/${PWD##*/}
 script:
-- drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/my_module/tests/ --coverage-clover clover.xml --log-junit junit.log
+- drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${PWD##*/}/tests/ --coverage-clover clover.xml --log-junit junit.log
