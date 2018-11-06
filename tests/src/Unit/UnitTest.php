@@ -10,7 +10,7 @@ use Drupal\phpunit_example\Unit;
  *
  * @group phpunit_example
  */
-class UnitTest extends UnitTestCase {
+class UnitTest extends UnitTestCas {
 
   protected $unit;
 
