@@ -14,4 +14,4 @@ install:
 
 # Testing the app (see phpunit.xml) for configs, generating Code Coverage report
 script:
-- ./bin/phpunit tests/src/Unit/UnitTest.php
+- ./phpunit tests/src/Unit/UnitTest.php
