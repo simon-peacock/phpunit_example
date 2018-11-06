@@ -6,31 +6,11 @@ addons:
   apt:
     packages:
       - libxml2-utils
-
 php:
   - 7.1
-  - 7.2
-  - 7.3
-  - master
-
-matrix:
-  allow_failures:
-    - php: master
-  fast_finish: true
-
-env:
-  matrix:
-    - DEPENDENCIES="high"
-    - DEPENDENCIES="low"
-  global:
-    - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
 before_install:
-  - ./build/tools/composer clear-cache
-
-install:
-  - if [[ "$DEPENDENCIES" = 'high' ]]; then travis_retry ./build/tools/composer update $DEFAULT_COMPOSER_FLAGS; fi
-  - if [[ "$DEPENDENCIES" = 'low' ]]; then travis_retry ./build/tools/composer update $DEFAULT_COMPOSER_FLAGS --prefer-lowest; fi
+- php /home/travis/.phpenv/versions/7.1/bin/composer.phar update
 
 before_script:
   - echo 'zend.assertions=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
@@ -46,16 +26,3 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
-notifications:
-  email: false
-
-jobs:
-  include:
-    - stage: Static Code Analysis
-      php: 7.2
-      env: php-cs-fixer
-      install:
-        - phpenv config-rm xdebug.ini
-      script:
-        - ./build/tools/php-cs-fixer fix --dry-run -v --show-progress=dots --diff-format=udiff
