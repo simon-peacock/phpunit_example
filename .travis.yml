@@ -13,5 +13,4 @@ install:
 - mkdir -p drupal/web/modules/${PWD##*/} && cp -a ${PWD##*/}* tests src drupal/web/modules/${PWD##*/}
 script:
 - drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${PWD##*/}/tests/
-- sonar-scanner -Dsonar.sources=drupal/web/modules/${PWD##*/}/src -Dsonar.php.tests.reportPath=junit.log -Dsonar.php.coverage.reportPaths=drupal/web/clover.xml
 
