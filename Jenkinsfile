@@ -18,7 +18,7 @@ pipeline {
                 sh '''
 
                     mkdir -p drupal/web/modules/${JOB_NAME%/*} \
-                    && cp -a ${PWD}* ${DIRS_TO_TEST} drupal/web/modules/${JOB_NAME%/*}
+                    && rsync -av ${PWD}/ drupal/web/modules/${JOB_NAME%/*}/ --exclude drupal
 
 
                 '''
@@ -26,6 +26,7 @@ pipeline {
                 //&& rsync -av --progress . drupal/web/modules/${JOB_NAME%/*} --exclude drupal
                 //drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${PWD##*/}/tests/
                 //rsync -av --progress ${PWD} drupal/web/modules/${JOB_NAME%/*} --exclude drupal
+                //cp -a ${PWD}* ${DIRS_TO_TEST} drupal/web/modules/${JOB_NAME%/*}
            }
         }
         stage('Static code analysis') {
