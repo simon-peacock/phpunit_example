@@ -12,12 +12,7 @@ pipeline {
     stages {
         stage('Pull Request') {
             steps {
-              sh '''
-
-              echo ${workspace}
-
-              '''
-
+                sh "echo ${workspace}"
             }
 
 
