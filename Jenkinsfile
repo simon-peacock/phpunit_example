@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Pull Request') {
             steps {
-                sh "ls -la"
+                echo sh(returnStdout: true, script: 'env')
             }
 
 
