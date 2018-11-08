@@ -2,7 +2,7 @@
 
 pipeline {
     environment {
-       workspace = pwd()
+       DIRS_TO_TEST= "tests src"
     }
     agent {
         label 'drupal8'
@@ -13,13 +13,15 @@ pipeline {
     options { disableConcurrentBuilds() }
     stages {
         stage('Pull Request') {
-            steps {
 
+           steps {
                 sh '''
-                    echo "${JOB_NAME%/*}"
+                    composer create-project drupal-composer/drupal-project:8.x-dev
+                    composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
+                    mkdir -p drupal/web/modules/${JOB_NAME%/*} && cp -a ${PWD##*/}* ${DIRS_TO_TEST} drupal/web/modules/${JOB_NAME%/*}
+                    drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${PWD##*/}/tests/
                 '''
-            }
-
+           }
         }
         stage('Static code analysis') {
             when {
