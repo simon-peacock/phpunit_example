@@ -17,13 +17,15 @@ pipeline {
            steps {
                 sh '''
 
-                    mkdir -p drupal/web/modules/${JOB_NAME%/*}
-                    rsync -av --progress ${PWD} drupal/web/modules/${JOB_NAME%/*} --exclude drupal
+                    mkdir -p drupal/web/modules/${JOB_NAME%/*} \
+                    && cp -a ${PWD}* ${DIRS_TO_TEST} drupal/web/modules/${JOB_NAME%/*}
+
 
                 '''
                 //composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
                 //&& rsync -av --progress . drupal/web/modules/${JOB_NAME%/*} --exclude drupal
                 //drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${PWD##*/}/tests/
+                //rsync -av --progress ${PWD} drupal/web/modules/${JOB_NAME%/*} --exclude drupal
            }
         }
         stage('Static code analysis') {
