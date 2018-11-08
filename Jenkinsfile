@@ -1,18 +1,20 @@
 #!/usr/bin/env groovy
 
 pipeline {
-   environment {
-     workspace = pwd()
-   }
-    agent { label 'drupal8' }
-//    triggers {
-//        bitbucketPush()
-//    }
+    environment {
+       workspace = pwd()
+    }
+    agent {
+        label 'drupal8'
+    }
+    triggers {
+        githubPush()
+    }
     options { disableConcurrentBuilds() }
     stages {
         stage('Pull Request') {
             steps {
-                sh "echo ${workspace}"
+                sh "ls -la"
             }
 
 
