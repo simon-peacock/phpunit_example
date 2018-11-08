@@ -6,7 +6,6 @@ pipeline {
     options { disableConcurrentBuilds() }
     stages {
         stage('Pull Request') {
-
            steps {
                 sh '''
                     composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
