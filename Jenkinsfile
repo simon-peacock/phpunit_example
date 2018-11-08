@@ -14,7 +14,9 @@ pipeline {
     stages {
         stage('Pull Request') {
             steps {
-                echo sh(returnStdout: true, script: 'env')
+              //  echo sh(returnStdout: true, script: 'env')
+
+                echo ${JOB_NAME%/*}
             }
 
 
