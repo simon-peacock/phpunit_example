@@ -18,7 +18,7 @@ pipeline {
                 sh '''
 
                     mkdir -p drupal/web/modules/${JOB_NAME%/*}
-                    ls -la ${PWD}
+                    rsync -av --progress ${PWD} drupal/web/modules/${JOB_NAME%/*} --exclude drupal
 
                 '''
                 //composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
