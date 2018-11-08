@@ -18,7 +18,7 @@ pipeline {
                 sh '''
 
                     mkdir -p drupal/web/modules/${JOB_NAME%/*} \
-                    && rsync --help
+                    && rsync -av --progress . drupal/web/modules/${JOB_NAME%/*} --exclude drupal
 
 
                 '''
