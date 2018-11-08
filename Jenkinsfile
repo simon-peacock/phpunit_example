@@ -29,7 +29,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo "This is not a PR"
+                    echo "This is not a PR "
                 '''
             }
         }
