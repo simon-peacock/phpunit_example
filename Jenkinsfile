@@ -2,9 +2,9 @@
 
 pipeline {
     agent { label 'drupal8' }
-    triggers {
-        bitbucketPush()
-    }
+//    triggers {
+//        bitbucketPush()
+//    }
     options { disableConcurrentBuilds() }
     stages {
         stage('Static code analysis') {
