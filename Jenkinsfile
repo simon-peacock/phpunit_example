@@ -19,11 +19,15 @@ pipeline {
            }
         }
         stage('Static Code Analysis') {
-            steps {
-                withSonarQubeEnv('lighting-prototype') {
-                    sh "sonar-scanner"
-                }
-            }
+           when {
+               expression { branch "PR-*" }
+               expression { branch "1.x" }
+           }
+           steps {
+               withSonarQubeEnv('lighting-prototype') {
+                   sh "sonar-scanner"
+               }
+           }
         }
     }
 }
