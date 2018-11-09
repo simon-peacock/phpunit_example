@@ -5,11 +5,10 @@ pipeline {
     triggers { githubPush() }
     options { disableConcurrentBuilds() }
     stages {
-
         stage('Static code analysis') {
             steps {
                 withSonarQubeEnv('lighting-prototype') {
-                    sh "sonar-scanner -Dsonar.analysis.mode=preview"
+                    sh "sonar-scanner -Dsonar.analysis.mode=preview -X"
                 }
             }
         }
