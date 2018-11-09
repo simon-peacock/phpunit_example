@@ -5,7 +5,22 @@ pipeline {
     triggers { githubPush() }
     options { disableConcurrentBuilds() }
     stages {
-        stage('Static code analysis') {
+        stage('Unit Test') {
+           when {
+               expression { branch "PR-*" }
+               expression { branch "1.x" }
+           }
+           steps {
+                sh '''
+                    composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
+                    mkdir -p drupal/web/modules/${JOB_NAME%/*} && rsync -av --progress . drupal/web/modules/${JOB_NAME%/*} --exclude drupal
+                    mkdir -p  build && mkdir -p  build/coverage/
+                    drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${JOB_NAME%/*}/tests/
+                '''
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'build/coverage', reportFiles: 'index.html', reportName: 'Coverage Report', reportTitles: ''])
+           }
+        }
+        stage('Static Code Analysis') {
             steps {
                 withSonarQubeEnv('lighting-prototype') {
                     sh "sonar-scanner"
