@@ -8,7 +8,7 @@ pipeline {
 
         stage('Static code analysis') {
             steps {
-                withSonarQubeEnv('lightning') {
+                withSonarQubeEnv('lighting-prototype') {
                     sh "sonar-scanner -Dsonar.analysis.mode=preview"
                 }
             }
