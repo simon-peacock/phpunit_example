@@ -14,7 +14,7 @@ pipeline {
            steps {
                 sh '''
                     composer install
-                    ls -la vendor/composer/
+                    ls -la vendor/bin/
 
                 '''
            }
