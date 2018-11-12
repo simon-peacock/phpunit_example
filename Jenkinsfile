@@ -14,7 +14,7 @@ pipeline {
            steps {
                 sh '''
                     composer install \
-                    && vendor/bin/phpunit -c tests/
+                    && vendor/bin/phpunit
                 '''
            }
         }
