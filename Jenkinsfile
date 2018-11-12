@@ -15,6 +15,7 @@ pipeline {
                 sh '''
                     composer install
                     ls -la
+                    vendor/bin/phpunit -c tests/
                 '''
            }
         }
