@@ -13,9 +13,8 @@ pipeline {
            }
            steps {
                 sh '''
-                    composer install
-                    ls -la vendor/bin/
-
+                    composer install \
+                    && vendor/bin/phpunit -c tests/
                 '''
            }
         }
