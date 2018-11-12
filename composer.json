@@ -10,5 +10,7 @@
     "issues": "https://www.drupal.org/project/issues/term_node",
     "source": "http://cgit.drupalcode.org/term_node"
   },
-  "require": { }
+  "require": {
+    "phpunit/phpunit": "7.x"
+  }
 }
