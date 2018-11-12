@@ -12,14 +12,11 @@ pipeline {
            steps {
                 sh '''
                     composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
-                    mkdir -p drupal/web/modules/${JOB_NAME%/*} && rsync -av --progress . drupal/web/modules/${JOB_NAME%/*} --exclude drupal
+                    mkdir -p drupal/web/modules/${JOB_NAME%/*} && rsync -av --progress . drupal/web/modules/${JOB_NAME%/*} --exclude drupal --quiet
+                    mkdir coverage
+                    drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${JOB_NAME%/*}/tests/ --coverage-clover $WORKSPACE/reports/coverage.xml --log-junit $WORKSPACE/build/phpunit.xml
                 '''
            }
-        }
-        stage("PHPUnit") {
-            steps {
-                sh 'drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${JOB_NAME%/*}/tests/ --coverage-clover $WORKSPACE/reports/coverage.xml --log-junit $WORKSPACE/reports/phpunit.xml'
-            }
         }
 
         stage("Publish Coverage") {
@@ -29,7 +26,7 @@ pipeline {
                     alwaysLinkToLastBuild: false,
                     keepAll: true,
                     reportDir: 'build/coverage',
-                    reportFiles: 'index.html',
+                    reportFiles: 'phpunit.xml',
                     reportName: "Coverage Report"
 
                 ])
@@ -67,6 +64,16 @@ pipeline {
             steps {
                 sh 'vendor/bin/phploc --count-tests --exclude vendor/ --log-csv build/logs/phploc.csv --log-xml build/logs/phploc.xml app'
             }
+        }
+        stage('Static Code Analysis') {
+           when {
+               expression { branch "PR-*" }
+           }
+           steps {
+               withSonarQubeEnv('lighting-prototype') {
+                   sh "sonar-scanner "
+               }
+           }
         }
     }
 }
