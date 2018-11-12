@@ -17,7 +17,7 @@ pipeline {
            }
         }
         stage("PHPUnit") {
-            sh 'vendor/phpunit/phpunit/phpunit --bootstrap build/bootstrap.php --configuration phpunit-coverage.xml'
+            sh 'drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${JOB_NAME%/*}/tests/ --coverage-clover $WORKSPACE/reports/coverage.xml --log-junit $WORKSPACE/reports/phpunit.xml'
         }
 
         stage("Publish Coverage") {
