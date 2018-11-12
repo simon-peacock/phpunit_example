@@ -15,7 +15,7 @@ pipeline {
                     mkdir -p drupal/web/modules/${JOB_NAME%/*} && rsync -av --progress . drupal/web/modules/${JOB_NAME%/*} --exclude drupal
                     drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${JOB_NAME%/*}/tests/ --coverage-clover $WORKSPACE/reports/coverage.xml --log-junit $WORKSPACE/reports/phpunit.xml
                 '''
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'reports', reportFiles: 'index.html', reportName: 'HTML-Report', reportTitles: ''])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'reports', reportFiles: 'phpunit.xml', reportName: 'HTML-Report', reportTitles: ''])
            }
         }
         stage('Static Code Analysis') {
