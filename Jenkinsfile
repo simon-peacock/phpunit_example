@@ -13,8 +13,8 @@ pipeline {
            }
            steps {
                 sh '''
-                    composer install \
-                    && vendor/bin/phpunit
+                    composer install
+                    vendor/bin/phpunit tests/ --coverage-clover $WORKSPACE/reports/coverage.xml --log-junit $WORKSPACE/reports/phpunit.xml
                 '''
            }
         }
