@@ -17,11 +17,14 @@ pipeline {
            }
         }
         stage("PHPUnit") {
-            sh 'drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${JOB_NAME%/*}/tests/ --coverage-clover $WORKSPACE/reports/coverage.xml --log-junit $WORKSPACE/reports/phpunit.xml'
+            steps {
+                sh 'drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${JOB_NAME%/*}/tests/ --coverage-clover $WORKSPACE/reports/coverage.xml --log-junit $WORKSPACE/reports/phpunit.xml'
+            }
         }
 
         stage("Publish Coverage") {
-            publishHTML (target: [
+            steps {
+                publishHTML (target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: true,
@@ -29,7 +32,8 @@ pipeline {
                     reportFiles: 'index.html',
                     reportName: "Coverage Report"
 
-            ])
+                ])
+            }
         }
 
         stage("Publish Clover") {
