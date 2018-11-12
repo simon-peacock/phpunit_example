@@ -14,7 +14,6 @@ pipeline {
                     composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
                     mkdir -p drupal/web/modules/${JOB_NAME%/*} && rsync -av --progress . drupal/web/modules/${JOB_NAME%/*} --exclude drupal
                     drupal/vendor/bin/phpunit -c drupal/web/core drupal/web/modules/${JOB_NAME%/*}/tests/ --coverage-clover $WORKSPACE/reports/coverage.xml --log-junit $WORKSPACE/reports/phpunit.xml
-                    mkdir reports
                     $class: 'CloverPublisher',
                     cloverReportDir: 'reports/',
                     cloverReportFileName: 'coverage.xml',
