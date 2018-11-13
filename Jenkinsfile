@@ -2,4 +2,4 @@
 
 @Library('lightning-shared-libraries@master') _
 
-myDeliveryPipeline()
+drupalUnitTest()
