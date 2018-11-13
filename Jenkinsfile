@@ -10,7 +10,7 @@ pipeline {
     stages {
 
         stage('Build Environment') {
-        
+
            when {
                expression { branch "PR-*" }
            }
@@ -36,7 +36,7 @@ pipeline {
            }
            steps {
                withSonarQubeEnv('lighting-prototype') {
-                   sh "sonar-scanner "
+                   sonnarScanner()
                }
            }
 
