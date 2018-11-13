@@ -6,16 +6,31 @@ pipeline {
     agent { label 'dennis-php' }
     triggers { githubPush() }
     options { disableConcurrentBuilds() }
+
     stages {
-        stage('Unit Test') {
+
+        stage('Build Environment') {
+        
            when {
                expression { branch "PR-*" }
            }
            steps {
-               buildPhpSite()
+               standardInstallationDrupal()
            }
         }
+
+        stage('Unit Test') {
+
+           when {
+               expression { branch "PR-*" }
+           }
+           steps {
+               drupalPhpUnitTest()
+           }
+        }
+
         stage('Static Code Analysis') {
+
            when {
                expression { branch "PR-*" }
            }
@@ -24,6 +39,7 @@ pipeline {
                    sh "sonar-scanner "
                }
            }
+
         }
     }
 }
