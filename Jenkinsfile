@@ -12,7 +12,7 @@ pipeline {
                expression { branch "PR-*" }
            }
            steps {
-               buildDrupal()
+               buildPhpSite()
            }
         }
         stage('Static Code Analysis') {
